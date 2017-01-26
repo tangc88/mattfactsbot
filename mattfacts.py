@@ -27,7 +27,7 @@ def handle_command(command, channel):
     response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
                "* command with numbers, delimited by spaces."
     if command.startswith(EXAMPLE_COMMAND):
-        random_fact_number = randint(0,4)
+        random_fact_number = randint(0, len(RESPONSES) - 1)
         response = RESPONSES[random_fact_number]
     elif command.startswith(RANK):
         response = "Some testing words" 
