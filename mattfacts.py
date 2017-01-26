@@ -38,7 +38,9 @@ def handle_command(command, channel):
     elif command.startswith(RANK):
         tier = games['31203597'][0]['tier']
         division = games['31203597'][0]['entries'][0]['division']
-        response = tier + " " + division
+        flex_tier = games['31203597'][1]['tier']
+        flex_division = games['31203597'][1]['entries'][0]['division']
+        response = "Solo Rank: " + tier + " " + division + "\n" + "Flex Rank: " + flex_tier + " " + flex_division
     else:
         response = "Sure...write some more code then I can do that!"
     slack_client.api_call("chat.postMessage", channel=channel,
