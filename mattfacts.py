@@ -9,10 +9,12 @@ BOT_ID = os.environ.get("BOT_ID")
 
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
-EXAMPLE_COMMAND = "fact"
+FACT = "fact"
+ALTFACT = "alternative fact"
 RANK = "rank"
 RESPONSES = ("Matt was physically born a boy and mentally a sandwich.", "Matt has diabetes.", "Matt and Mott are synonyms.",
             "Matt only has 9 toes.", "Matt has the ability to suck his own ear")
+ALT_RESPONSES = ("Matt only has 9 toes.", "Matt has the ability to suck his own ear.")
 
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -24,13 +26,14 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
-    response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
-               "* command with numbers, delimited by spaces."
-    if command.startswith(EXAMPLE_COMMAND):
+    if command.startswith(FACT):
         random_fact_number = randint(0, len(RESPONSES) - 1)
         response = RESPONSES[random_fact_number]
+    elif command.startswith(ALTFACT):
+        random_fact_number = randint(0, len(ALT_RESPONSES) - 1)
+        response = ALT_RESPONSES[random_fact_number]
     elif command.startswith(RANK):
-        response = "Some testing words" 
+        response = "Some testing words"
         ranking = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=ea292ea8-35ca-4f74-9d2c-ab12d67d6fe0')
         print ranking.url
         return ranking.json()
