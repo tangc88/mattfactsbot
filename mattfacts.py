@@ -36,12 +36,9 @@ def handle_command(command, channel):
         random_fact_number = randint(0, len(ALT_RESPONSES) - 1)
         response = ALT_RESPONSES[random_fact_number]
     elif command.startswith(RANK):
-        tier = games.json()['31203597'][1]['tier']
-        division = games.json()['31203597'][1]['entries'][0]['division']
-        #for item in games['31203597']:
-            #tier = item['tier']
-            #division = item['entries'][0]['division']
-        response = tier + division
+        tier = games['31203597'][0]['tier']
+        division = games['31203597'][0]['entries'][0]['division']
+        response = tier + " " + division
     else:
         response = "Sure...write some more code then I can do that!"
     slack_client.api_call("chat.postMessage", channel=channel,
