@@ -7,6 +7,7 @@ from random import randint
 
 # starterbot's ID as an environment variable
 BOT_ID = os.environ.get("BOT_ID")
+RIOT_API = os.environ.get("RIOT_API")
 
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
@@ -16,7 +17,7 @@ RANK = "rank"
 RESPONSES = ("Matt was physically born a boy and mentally a sandwich.", "Matt has diabetes.", "Matt and Mott are synonyms.",
             "Matt only has 9 toes.", "Matt has the ability to suck his own ear")
 ALT_RESPONSES = ("Matt only has 9 toes.", "Matt has the ability to suck his own ear.")
-json_games = urllib2.urlopen('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=ea292ea8-35ca-4f74-9d2c-ab12d67d6fe0')
+json_games = urllib2.urlopen('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=' + RIOT_API)
 games = json.load(json_games)
 
 # instantiate Slack & Twilio clients
