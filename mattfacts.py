@@ -28,7 +28,7 @@ json_games = urllib2.urlopen('https://na.api.pvp.net/api/lol/na/v2.5/league/by-s
 games = json.load(json_games)
 
 # instantiate Slack & Twilio clients
-slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
+slack_client = SlackClient(os.environ.get('SLACK_TOKEN'))
 
 
 def handle_command(command, channel):
