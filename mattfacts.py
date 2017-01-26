@@ -2,6 +2,7 @@ import os
 import time
 import json
 import urllib2
+import datetime
 from slackclient import SlackClient
 from random import randint
 
@@ -14,9 +15,15 @@ AT_BOT = "<@" + BOT_ID + ">"
 FACT = "fact"
 ALTFACT = "alternative fact"
 RANK = "rank"
+MATT_BIRTHDAY = datetime.date(1990, 11, 7)
+TODAY = datetime.date.today()
+DIFF = TODAY - MATT_BIRTHDAY
+
 RESPONSES = ("Matt was physically born a boy and mentally a sandwich.", "Matt has diabetes.", "Matt and Mott are synonyms.",
-            "Matt only has 9 toes.", "Matt has the ability to suck his own ear")
-ALT_RESPONSES = ("Matt only has 9 toes.", "Matt has the ability to suck his own ear.")
+    "Matt is " + str(DIFF.days) + " days old!", "Matt is a weird guy, but he is fun.")
+ALT_RESPONSES = ("Matt only has 9 toes on his feet, his tenth toe is his penis.", "Matt has the ability to suck his own ear.",
+    "Matt invented the sport of penis wrestling, he plays alone.", "Matt was once on the path of going pro in LoL, but diabetes derailed his destiny.",
+    "Before becoming diabetic, Matt has straight hair.")
 json_games = urllib2.urlopen('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=' + RIOT_API)
 games = json.load(json_games)
 
@@ -43,7 +50,7 @@ def handle_command(command, channel):
         flex_division = games['31203597'][1]['entries'][0]['division']
         response = "Solo Rank: " + tier + " " + division + "\n" + "Flex Rank: " + flex_tier + " " + flex_division
     else:
-        response = "Sure...write some more code then I can do that!"
+        response = "I DON'T KNOW HOW TO DO THAT."
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response, as_user=True)
 
