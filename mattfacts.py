@@ -1,6 +1,7 @@
 import os
 import time
-import requests
+import json
+import urllib2
 from slackclient import SlackClient
 from random import randint
 
@@ -15,6 +16,8 @@ RANK = "rank"
 RESPONSES = ("Matt was physically born a boy and mentally a sandwich.", "Matt has diabetes.", "Matt and Mott are synonyms.",
             "Matt only has 9 toes.", "Matt has the ability to suck his own ear")
 ALT_RESPONSES = ("Matt only has 9 toes.", "Matt has the ability to suck his own ear.")
+json_games = urllib2.urlopen('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=ea292ea8-35ca-4f74-9d2c-ab12d67d6fe0')
+games = json.load(json_games)
 
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -33,10 +36,10 @@ def handle_command(command, channel):
         random_fact_number = randint(0, len(ALT_RESPONSES) - 1)
         response = ALT_RESPONSES[random_fact_number]
     elif command.startswith(RANK):
-        response = "Some testing words"
-        ranking = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=ea292ea8-35ca-4f74-9d2c-ab12d67d6fe0')
-        print ranking.url
-        return ranking.json()
+        for item in games['31203597']:
+            tier = item['tier']
+            division = item['entries'][0]['division']
+            response = tier, division
     else:
         response = "Sure...write some more code then I can do that!"
     slack_client.api_call("chat.postMessage", channel=channel,
