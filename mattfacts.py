@@ -1,5 +1,6 @@
 import os
 import time
+import requests
 from slackclient import SlackClient
 from random import randint
 
@@ -9,6 +10,8 @@ BOT_ID = os.environ.get("BOT_ID")
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
 EXAMPLE_COMMAND = "fact"
+RANK = "rank"
+
 
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -30,10 +33,15 @@ def handle_command(command, channel):
             response = "Matt has diabetes."
         elif random_fact_number == 2:
             response = "Matt and Mott are synonyms."
-        elif random_fact_number == 3:
-            response = "Matt only has 9 toes."
         else:
-            response = "Sure...write some more code then I can do that!"
+            response = "Matt only has 9 toes."
+    elif command.startswith(RANK):
+        response = "Some testing words" 
+        ranking = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=ea292ea8-35ca-4f74-9d2c-ab12d67d6fe0')
+        print ranking.url
+        return ranking.json()
+    else:
+        response = "Sure...write some more code then I can do that!"
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response, as_user=True)
 
