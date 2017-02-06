@@ -26,7 +26,7 @@ RESPONSES = ("Matt was physically born a boy and mentally a sandwich.", "Matt ha
 ALT_RESPONSES = ("Matt only has 9 toes on his feet, his tenth toe is his penis.", "Matt has the ability to suck his own ear.",
     "Matt invented the sport of penis wrestling, he plays alone.", "Matt was once on the path of going pro in LoL, but diabetes derailed his destiny.",
     "Before becoming diabetic, Matt has straight hair.")
-#picture_url = urllib2.urlopen('https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-0/p206x206/1656363_10153941232830164_2089821000_n.jpg?oh=5a68c1a67cc895d5bc72eb5df26a6796&oe=591CA0EB')
+picture_url = 'https://graph.facebook.com/853470163/picture?width=9999&height=9999'
 json_games = urllib2.urlopen('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/31203597/entry?api_key=' + RIOT_API)
 games = json.load(json_games)
 
@@ -56,8 +56,8 @@ def handle_command(command, channel):
         flex_tier = games['31203597'][1]['tier']
         flex_division = games['31203597'][1]['entries'][0]['division']
         response = "Solo Rank: " + tier + " " + division + "\n" + "Flex Rank: " + flex_tier + " " + flex_division
-#    elif command.startswith(PICTURE):
-#        response = picture_url
+    elif command.startswith(PICTURE):
+        response = picture_url
     else:
         response = "I DON'T KNOW HOW TO DO THAT."
     slack_client.api_call("chat.postMessage", channel=channel,
